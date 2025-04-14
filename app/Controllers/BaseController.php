@@ -21,6 +21,13 @@ use Psr\Log\LoggerInterface;
  */
 abstract class BaseController extends Controller
 {
+    protected $session;
+
+    public function __construct()
+    {
+        $this->session = session();
+    }
+
     /**
      * Instance of the main Request object.
      *

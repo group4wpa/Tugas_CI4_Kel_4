@@ -1,60 +1,51 @@
-<?= $this->extend('auth/templates/index'); ?>
+<!DOCTYPE html>
+<html lang="id">
 
-<?= $this->section('content'); ?>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card o-hidden border-0 shadow-lg my-5">
-                <div class="card-body p-0">
-                    <!-- Nested Row within Card Body -->
-                    <div class="row">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
 
-                        <div class="col-lg">
-                            <div class="p-5">
-                                <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4"><?= lang('Auth.register') ?></h1>
-                                </div>
+    <style>
 
-                                <?= view('Myth\Auth\Views\_message_block') ?>
+    </style>
+</head>
 
-                                <form action="<?= url_to('register') ?>" method="post" class="user">
-                                    <?= csrf_field() ?>
-
-                                    <div class="form-group">
-                                        <input type="email" class="form-control form-control-user <?php if (session('errors.email')) : ?>is-invalid<?php endif ?>" name="email"
-                                            placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>">
-                                        <small id="emailHelp" class="form-text text-muted"><?= lang('Auth.weNeverShare') ?></small>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <input type="name" class="form-control form-control-user <?php if (session('errors.username')) : ?>is-invalid<?php endif ?>" name="username"
-                                            placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>">
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <input type="password" class="form-control form-control-user <?php if (session('errors.password')) : ?>is-invalid<?php endif ?>" name="password" placeholder="<?= lang('Auth.password') ?>" autocomplete="off">
-                                        </div>
-
-                                        <div class="col-sm-6">
-                                            <input type="password" class="form-control form-control-user <?php if (session('errors.pass_confirm')) : ?>is-invalid<?php endif ?>"
-                                                placeholder="<?= lang('Auth.repeatPassword') ?>" autocomplete="off">
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary btn-user btn-block">
-                                        <?= lang('Auth.register') ?>
-                                    </button>
-                                </form>
-                                <hr>
-                                <div class="text-center">
-                                    <a class="small" href="<?= url_to('login') ?>"><?= lang('Auth.alreadyRegistered') ?><?= lang('Auth.signIn') ?></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<body class="d-flex justify-content-center align-items-center">
+    <div class="register-container text-white">
+        <h3 class="text-center mb-4">Register</h3>
+        <?php if (session()->getFlashdata('errors')): ?>
+            <div class="alert alert-danger">
+                <ul>
+                    <?php foreach (session()->getFlashdata('errors') as $error): ?>
+                        <li><?= esc($error) ?></li>
+                    <?php endforeach; ?>
+                </ul>
             </div>
-        </div>
+        <?php endif; ?>
+
+        <form action="/register" method="post">
+            <?= csrf_field(); ?>
+
+            <div class="mb-3 input-group">
+                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                <input type="text" name="name" id="name" class="form-control" placeholder="Nama" required>
+            </div>
+            <div class="mb-3 input-group">
+                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="mb-3 input-group">
+                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+        </form>
+        <a href="/login" class="btn-login mt-3">Sudah punya akun? Login</a>
     </div>
-</div>
-<?= $this->endSection(); ?>
+</body>
+
+</html>

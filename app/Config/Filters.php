@@ -12,10 +12,7 @@ use CodeIgniter\Filters\InvalidChars;
 use CodeIgniter\Filters\PageCache;
 use CodeIgniter\Filters\PerformanceMetrics;
 use CodeIgniter\Filters\SecureHeaders;
-use Myth\Auth\Entities\Permission;
-use Myth\Auth\Filters\LoginFilter;
-use Myth\Auth\Filters\PermissionFilter;
-use Myth\Auth\Filters\RoleFilter;
+use App\Filters\Auth; // Tambahkan ini 👈
 
 class Filters extends BaseFilters
 {
@@ -38,9 +35,7 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
-        'login'         => LoginFilter::class,
-        'role'          => RoleFilter::class,
-        'Permission'    => PermissionFilter::class,
+        'auth'          => Auth::class, // Tambahkan ini 👈
     ];
 
     /**
@@ -48,11 +43,6 @@ class Filters extends BaseFilters
      *
      * The filters listed here are special. They are applied before and after
      * other kinds of filters, and always applied even if a route does not exist.
-     *
-     * Filters set by default provide framework functionality. If removed,
-     * those functions will no longer work.
-     *
-     * @see https://codeigniter.com/user_guide/incoming/filters.html#provided-filters
      *
      * @var array{before: list<string>, after: list<string>}
      */
@@ -79,7 +69,6 @@ class Filters extends BaseFilters
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
-
         ],
         'after' => [
             // 'honeypot',
@@ -91,13 +80,6 @@ class Filters extends BaseFilters
      * List of filter aliases that works on a
      * particular HTTP method (GET, POST, etc.).
      *
-     * Example:
-     * 'POST' => ['foo', 'bar']
-     *
-     * If you use this, you should disable auto-routing because auto-routing
-     * permits any HTTP method to access a controller. Accessing the controller
-     * with a method you don't expect could bypass the filter.
-     *
      * @var array<string, list<string>>
      */
     public array $methods = [];
@@ -106,10 +88,9 @@ class Filters extends BaseFilters
      * List of filter aliases that should run on any
      * before or after URI patterns.
      *
-     * Example:
-     * 'isLoggedIn' => ['before' => ['account/*', 'profiles/*']]
-     *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [];
+    public array $filters = [
+        'auth' => ['before' => ['admin/*']], // Filter ini diterapkan sebelum mengakses halaman admin
+    ];
 }
